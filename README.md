@@ -1,4 +1,4 @@
-# Vana Satya Proof of Contribution - Python Template
+# vChars Satya Proof of Contribution
 
 This repository serves as a template for creating a [proof of contribution](https://docs.vana.org/docs/proof-of-contribution/) tasks using Python. It is executed on Vana's Satya Network, a group of highly confidential and secure compute nodes that can validate data without revealing its contents to the node operator.
 
