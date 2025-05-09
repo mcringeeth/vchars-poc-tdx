@@ -76,6 +76,12 @@ docker run \
   my-proof
 ```
 
+docker run \
+  -v "$(pwd)/input:/input" \
+  -v "$(pwd)/output:/output" \
+  --env-file .env \
+  my-proof
+
 ## Running with Intel TDX
 
 Intel TDX (Trust Domain Extensions) provides hardware-based memory encryption and integrity protection for virtual machines. To run this container in a TDX-enabled environment, follow your infrastructure provider's specific instructions for deploying confidential containers.

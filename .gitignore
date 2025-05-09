@@ -3,9 +3,17 @@
 __pycache__/
 *.pyc
 
-/input/account.json
-/input/activity.json
-
-/output/results.json
+demo/*
+input/*
+output/*
+!demo/input/
 
 .idea/
+enclave-key.pem
+
+.DS_Store
+
+.env.example
+public_key.pem
+
+.env

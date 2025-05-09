@@ -16,11 +16,14 @@ logging.basicConfig(level=logging.INFO, format='%(message)s')
 def load_config() -> Dict[str, Any]:
     """Load proof configuration from environment variables."""
     config = {
-        'dlp_id': 1234,  # Set your own DLP ID here
+        'dlp_id': 8,  # Set your own DLP ID here
         'input_dir': INPUT_DIR,
-        'user_email': os.environ.get('USER_EMAIL', None),
+        'telegram_bot_access_key': os.environ.get('TELEGRAM_BOT_ACCESS_KEY', None),
+        'allow_reuse': os.environ.get('ALLOW_REUSE', None),
+        'tg_init_data': os.environ.get('TELEGRAM_INIT_DATA', None).strip('"\'') if os.environ.get('TELEGRAM_INIT_DATA') else None,
+        'filebase_access_key_id': os.environ.get('FILEBASE_ACCESS_KEY_ID', None),
+        'filebase_secret_access_key': os.environ.get('FILEBASE_SECRET_ACCESS_KEY', None),
     }
-    logging.info(f"Using config: {json.dumps(config, indent=2)}")
     return config
 
 
@@ -44,16 +47,20 @@ def run() -> None:
 
 def extract_input() -> None:
     """
-    If the input directory contains any zip files, extract them
-    :return:
-    """
+    If the input directory contains any zip files, extract them and remove the original zip files
+    """    
     for input_filename in os.listdir(INPUT_DIR):
         input_file = os.path.join(INPUT_DIR, input_filename)
 
         if zipfile.is_zipfile(input_file):
-            with zipfile.ZipFile(input_file, 'r') as zip_ref:
-                zip_ref.extractall(INPUT_DIR)
-
+            try:
+                with zipfile.ZipFile(input_file, 'r') as zip_ref:
+                    zip_ref.extractall(INPUT_DIR)
+                os.remove(input_file)
+            except Exception as e:
+                logging.error(f"Error processing zip file {input_filename}: {str(e)}")
+                raise
+    
 
 if __name__ == "__main__":
     try:
